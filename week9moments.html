@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Week 9 Moments</title>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <link href="https://cdn.prod.website-files.com/6058fae74428dbc4ec583ba1/css/webflow-path-one.webflow.3d07f7df4.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #333; /* Darker text for light background */
+      background-image: url('https://i.ibb.co/hK5bC47/file-000.jpg'); /* Using a neutral background */
+      background-color: #f0f0f0; /* Lighter fallback color */
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+
+    /* Keyframe animation for the container's background (light theme with dynamic colors) */
+    @keyframes subtleGradientShift {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+
+    /* Keyframe animation for pulsating text glow (light theme) */
+    @keyframes h1PulseLight {
+        0% { text-shadow: 0 0 5px rgba(44, 62, 80, 0.1); } /* Very subtle shadow */
+        100% { text-shadow: 0 0 12px rgba(44, 62, 80, 0.3); } /* Slightly more prominent */
+    }
+
+    /* Keyframe animation for pulsating button glow (light theme - blue) */
+    @keyframes buttonGlowLightBlue {
+        0% { box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2); }
+        100% { box-shadow: 0 6px 15px rgba(0, 123, 255, 0.4); }
+    }
+
+    /* Keyframe animation for pulsating button glow (light theme - dark grey) */
+    @keyframes buttonGlowDarkLight {
+        0% { box-shadow: 0 0 8px rgba(108, 117, 125, 0.2); } /* Adjusted for lighter button */
+        100% { box-shadow: 0 0 12px rgba(108, 117, 125, 0.4); } /* Adjusted for lighter button */
+    }
+
+
+    .container {
+      max-width: 960px;
+      margin: 40px auto;
+      padding: 30px;
+      /* Animated Gradient Background for the container (dynamic light theme colors) */
+      background: linear-gradient(270deg, #f0f8ff, #e6f7ff, #f0f8ff, #daefff);
+      background-size: 400% 400%; /* Larger size to allow more color shift */
+      animation: subtleGradientShift 20s ease infinite alternate; /* Slower, alternates direction */
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      border-radius: 12px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      border: 1px solid #e0e0e0;
+    }
+    h1 {
+      font-size: 2.8em;
+      margin-bottom: 35px;
+      color: #2c3e50;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      text-shadow: 0 0 5px rgba(44, 62, 80, 0.1); /* Initial subtle shadow */
+      animation: h1PulseLight 2.5s infinite alternate; /* Applied dynamic glow */
+    }
+
+    /* Styles for both sliders */
+    .slider-container {
+      position: relative;
+      max-width: 600px;
+      margin: 40px auto;
+      overflow: hidden;
+      border: none;
+      border-radius: 10px;
+      background-color: transparent;
+      box-shadow: none;
+    }
+    .slider-track {
+      display: flex;
+      transition: transform 0.9s ease-in-out;
+      width: fit-content;
+    }
+    .slide-item {
+      min-width: 600px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 0;
+      height: auto; /* Allow height to adjust based on content */
+      min-height: 400px; /* Increased minimum height for moments slides */
+      flex-shrink: 0;
+    }
+
+    /* Styles for title and date embedded in the image */
+    .slide-image {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      height: auto; /* Allow height to adjust */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      /* Ensure iframes within this container fill it */
+      min-height: 350px; /* Minimum height for video embeds */
+    }
+
+    .slide-image img {
+      width: 100%;
+      height: auto; /* Allow image height to scale proportionally */
+      max-height: 500px; /* Increased maximum height for images */
+      object-fit: contain; /* Ensure the whole image is visible */
+      border-radius: 6px;
+      display: block;
+      margin: auto;
+    }
+
+    /* Styles for the iframe wrapper to maintain aspect ratio */
+    .video-wrapper {
+        position: relative;
+        width: 100%;
+        height: 0;
+        padding-bottom: 66.667%; /* Default 16:9 aspect ratio (adjust as needed if videos are different) */
+        overflow: hidden;
+        border-radius: 6px;
+    }
+
+    .video-wrapper iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+
+    .slide-text-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 15px 20px;
+      color: #333; /* Changed to dark text for contrast on lighter gradient */
+      text-shadow: none; /* Removed text shadow for clean look on light background */
+      background: linear-gradient(to top, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 100%); /* Lighter gradient for readability */
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: flex-start;
+      box-sizing: border-box;
+      height: 100%;
+      border-radius: 6px;
+    }
+
+    .slide-text-overlay h2 {
+      font-size: 1.6em;
+      line-height: 1.2;
+      margin-bottom: 5px;
+      margin-top: 0;
+      color: inherit;
+      text-align: left;
+      width: 100%;
+    }
+
+    .slide-text-overlay .quest-date {
+      font-size: 0.8em;
+      color: rgba(51,51,51,0.7); /* Adjusted for readability on lighter background */
+      margin-top: 0;
+      text-align: left;
+      width: 100%;
+      /* ADDED: Hide the quest-date span if it's still present in HTML but empty or undesired */
+      display: none;
+    }
+
+    /* Specific styles for winner slides content (light theme) */
+    .winner-slide-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      width: 100%;
+      color: #333; /* Dark text color */
+      padding: 25px; /* Keep padding for winner content */
+    }
+    .winner-slide-content h2 {
+      font-size: 2em;
+      margin-bottom: 15px;
+      color: #007bff; /* Kept blue for highlight */
+      font-weight: 600;
+    }
+    .winner-slide-content p {
+      font-size: 1.1em;
+      color: #555;
+      margin-bottom: 5px; /* Reduced margin for twitter ID */
+    }
+    .winner-slide-content .twitter-id {
+      font-size: 0.95em;
+      color: #007bff;
+      text-decoration: none;
+      margin-bottom: 20px; /* Space below twitter ID */
+      display: block; /* Make it a block element for proper spacing */
+    }
+    .winner-slide-content .twitter-id:hover {
+      text-decoration: underline;
+    }
+    .winner-slide-content img {
+      max-width: 70%;
+      max-height: 250px;
+      border-radius: 50%;
+      border: 4px solid #007bff; /* Kept blue for highlight */
+      object-fit: contain; /* Changed to contain to show full winner image */
+      margin-bottom: 15px;
+      margin: auto; /* Center the image if there's extra space */
+    }
+
+    .slider-navigation button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(173, 181, 189, 0.7); /* Lighter grey for buttons */
+      color: #333; /* Darker text for lighter buttons */
+      border: none;
+      padding: 12px 18px;
+      cursor: pointer;
+      border-radius: 50%;
+      font-size: 1.6em;
+      z-index: 10;
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+      box-shadow: 0 0 8px rgba(108, 117, 125, 0.2); /* Initial shadow, adjusted for lighter button */
+      animation: buttonGlowDarkLight 2s infinite alternate; /* Applied dynamic glow, adjusted for lighter button */
+    }
+    .slider-navigation button:hover {
+      background-color: rgba(173, 181, 189, 0.9); /* Lighter grey for hover */
+      transform: translateY(-50%) scale(1.05);
+      box-shadow: 0 0 12px rgba(108, 117, 125, 0.3); /* Adjusted for lighter button */
+    }
+    .slider-navigation .prev-btn {
+      left: 15px;
+    }
+    .slider-navigation .next-btn {
+      right: 15px;
+    }
+
+    .back-button {
+      display: inline-block;
+      margin-top: 40px;
+      padding: 12px 28px;
+      background-color: #007bff; /* Kept blue as it's a primary action */
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 1.15em;
+      font-weight: 600;
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2); /* Initial shadow */
+      animation: buttonGlowLightBlue 2s infinite alternate; /* Applied dynamic glow */
+    }
+    .back-button:hover {
+      background-color: #0056b3;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(0, 123, 255, 0.3);
+    }
+
+    /* Responsive adjustments for smaller screens */
+    @media only screen and (max-width: 768px) {
+      .container {
+        margin: 20px auto;
+        padding: 15px;
+      }
+      h1 {
+        font-size: 2em;
+        margin-bottom: 25px;
+      }
+      .slider-container {
+        max-width: 90%;
+      }
+      .slide-item {
+        min-width: 90vw;
+        height: auto; /* Adjusted from fixed height */
+        min-height: 300px; /* New min-height for smaller screens */
+        padding: 0;
+      }
+      .slide-image {
+          min-height: 250px; /* Adjust for smaller screens */
+      }
+      .slide-text-overlay h2 {
+        font-size: 1.2em;
+      }
+      .slide-text-overlay .quest-date {
+        font-size: 0.7em;
+      }
+      .winner-slide-content h2 {
+        font-size: 1.8em;
+      }
+      .winner-slide-content p {
+        font-size: 1em;
+      }
+      .winner-slide-content .twitter-id {
+        font-size: 0.85em;
+      }
+      .winner-slide-content img {
+        max-height: 180px; /* Adjusted max-height for responsiveness */
+      }
+      .slider-navigation button {
+        padding: 10px 12px;
+        font-size: 1.2em;
+      }
+      .back-button {
+        padding: 10px 20px;
+        font-size: 1em;
+      }
+    }
+    @media only screen and (max-width: 480px) {
+      .slide-item {
+        height: auto; /* Adjusted from fixed height */
+        min-height: 250px; /* New min-height for even smaller screens */
+      }
+      .slide-image {
+          min-height: 200px; /* Adjust for even smaller screens */
+      }
+      .winner-slide-content h2 {
+        font-size: 1.5em;
+      }
+      .winner-slide-content img {
+        max-height: 120px; /* Further adjusted max-height for smaller screens */
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Week 9 Moments</h1>
+
+    <div id="moments-slider" class="slider-container">
+      <div class="slider-track">
+        <div class="slide-item">
+          <div class="slide-image">
+            <div style="position:relative; width:100%; height:0px; padding-bottom:64.982%">
+              <iframe allow="fullscreen;autoplay" allowfullscreen height="100%" src="https://streamable.com/e/59ueyf?autoplay=1" width="100%" style="border:none; width:100%; height:100%; position:absolute; left:0px; top:0px; overflow:hidden;"></iframe>
+            </div>
+          </div>
+        </div>
+        <div class="slide-item">
+          <div class="slide-image">
+            <div style="position:relative; width:100%; height:0px; padding-bottom:66.667%">
+              <iframe allow="fullscreen;autoplay" allowfullscreen height="100%" src="https://streamable.com/e/gzvgbd?autoplay=1" width="100%" style="border:none; width:100%; height:100%; position:absolute; left:0px; top:0px; overflow:hidden;"></iframe>
+            </div>
+          </div>
+        </div>
+        <div class="slide-item">
+          <div class="slide-image">
+            <img src="https://i.ibb.co/C3nwqBxV/Screenshot-2025-07-20-01-51-11-838-com-discord.png" alt="Week 9 Moment Image 1">
+            <div class="slide-text-overlay"></div>
+          </div>
+        </div>
+        <div class="slide-item">
+          <div class="slide-image">
+            <img src="https://i.ibb.co/5g4Kwmjz/Screenshot-2025-07-20-01-51-28-733-com-discord.png" alt="Week 9 Moment Image 2">
+            <div class="slide-text-overlay"></div>
+          </div>
+        </div>
+        <div class="slide-item">
+          <div class="slide-image">
+            <img src="https://i.ibb.co/35MqNgC1/Screenshot-2025-07-20-01-50-43-854-com-discord.png" alt="Week 9 Moment Image 3">
+            <div class="slide-text-overlay"></div>
+          </div>
+        </div>
+        <div class="slide-item">
+          <div class="slide-image">
+            <img src="https://i.ibb.co/j93dyMnz/Screenshot-2025-07-20-02-00-03-936-com-discord.png" alt="Week 9 Moment Image 4">
+            <div class="slide-text-overlay"></div>
+          </div>
+        </div>
+        <div class="slide-item">
+          <div class="slide-image">
+            <img src="https://i.ibb.co/R4tpm5bX/Screenshot-2025-07-20-02-00-39-348-com-discord.png" alt="Week 9 Moment Image 5">
+            <div class="slide-text-overlay"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slider-navigation">
+        <button id="moments-prev-btn" class="prev-btn">&#10094;</button>
+        <button id="moments-next-btn" class="next-btn">&#10095;</button>
+      </div>
+    </div>
+
+    <h1 style="margin-top: 60px;">Winners</h1>
+
+    <div id="winners-slider" class="slider-container">
+      <div class="slider-track">
+        <div class="slide-item">
+          <div class="winner-slide-content">
+            <h2>1st Place Winner</h2>
+            <img src="https://i.ibb.co/1fPbjht2/Screenshot-2025-07-19-18-30-35-567-com-picsart-studio.png" alt="1st Place Winner">
+            <p>Congratulations to our 1st place winner!</p>
+            <a href="https://twitter.com/prateekhh" target="_blank" class="twitter-id">@prateekhh</a>
+          </div>
+        </div>
+        <div class="slide-item">
+          <div class="winner-slide-content">
+            <h2>2nd Place Winner</h2>
+            <img src="https://i.ibb.co/xt0k3VGR/Screenshot-2025-07-20-01-53-34-533-com-picsart-studio.png" alt="2nd Place Winner">
+            <p>Congratulations to our 2nd place winner!</p>
+            <a href="https://twitter.com/Muhammadforha12" target="_blank" class="twitter-id">@Muhammadforha12</a>
+          </div>
+        </div>
+        <div class="slide-item">
+          <div class="winner-slide-content">
+            <h2>3rd Place Winner</h2>
+            <img src="https://i.ibb.co/sJqNNPpt/Screenshot-2025-07-19-18-30-21-337-com-picsart-studio.png" alt="3rd Place Winner">
+            <p>Congratulations to our 3rd place winner!</p>
+            <a href="https://twitter.com/shayneRFRM" target="_blank" class="twitter-id">@shayneRFRM</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="slider-navigation">
+        <button id="winners-prev-btn" class="prev-btn">&#10094;</button>
+        <button id="winners-next-btn" class="next-btn">&#10095;</button>
+      </div>
+    </div>
+
+    <a href="demo.html" class="back-button">Back to Quests</a>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Debounce function to limit how often a function fires
+      function debounce(func, delay) {
+        let timeout;
+        return function(...args) {
+          const context = this;
+          clearTimeout(timeout);
+          timeout = setTimeout(() => func.apply(context, args), delay);
+        };
+      }
+
+      // --- Slider Logic for Week 9 Moments ---
+      const momentsSliderTrack = document.querySelector('#moments-slider .slider-track');
+      const momentsSlides = document.querySelectorAll('#moments-slider .slide-item');
+      const momentsPrevButton = document.getElementById('moments-prev-btn');
+      const momentsNextButton = document.getElementById('moments-next-btn');
+
+      let currentMomentsSlideIndex = 0;
+      const momentsSlideCount = momentsSlides.length;
+      let momentsSlideInterval;
+
+      function updateMomentsSliderPosition() {
+        const slideWidth = momentsSlides.length > 0 ? momentsSlides[0].clientWidth : 0;
+        momentsSliderTrack.style.transform = `translateX(-${currentMomentsSlideIndex * slideWidth}px)`;
+      }
+
+      function nextMomentsSlide() {
+        currentMomentsSlideIndex = (currentMomentsSlideIndex + 1) % momentsSlideCount;
+        updateMomentsSliderPosition();
+      }
+
+      function prevMomentsSlide() {
+        currentMomentsSlideIndex = (currentMomentsSlideIndex - 1 + momentsSlideCount) % momentsSlideCount;
+        updateMomentsSliderPosition();
+      }
+
+      function startAutoplay() {
+        if (momentsSlideInterval) {
+          clearInterval(momentsSlideInterval);
+        }
+        momentsSlideInterval = setInterval(nextMomentsSlide, 4000); // Change slide every 4 seconds
+      }
+
+      if (momentsPrevButton) {
+        momentsPrevButton.addEventListener('click', function() {
+          prevMomentsSlide();
+          startAutoplay(); // Reset autoplay on manual interaction
+        });
+      }
+
+      if (momentsNextButton) {
+        momentsNextButton.addEventListener('click', function() {
+          nextMomentsSlide();
+          startAutoplay(); // Reset autoplay on manual interaction
+        });
+      }
+
+      // Debounced resize handler for moments slider
+      const debouncedMomentsResize = debounce(updateMomentsSliderPosition, 250);
+      window.addEventListener('resize', debouncedMomentsResize);
+
+      updateMomentsSliderPosition(); // Initial positioning
+      if (momentsSlideCount > 0) { // Only start autoplay if there are slides
+        startAutoplay(); // Start autoplay on load
+      }
+
+
+      // --- Slider Logic for Winners ---
+      const winnersSliderTrack = document.querySelector('#winners-slider .slider-track');
+      const winnersSlides = document.querySelectorAll('#winners-slider .slide-item');
+      const winnersPrevButton = document.getElementById('winners-prev-btn');
+      const winnersNextButton = document.getElementById('winners-next-btn');
+
+      let currentWinnersSlideIndex = 0;
+      const winnersSlideCount = winnersSlides.length;
+      let winnersSlideInterval;
+
+      function updateWinnersSliderPosition() {
+        const slideWidth = winnersSlides.length > 0 ? winnersSlides[0].clientWidth : 0;
+        winnersSliderTrack.style.transform = `translateX(-${currentWinnersSlideIndex * slideWidth}px)`;
+      }
+
+      function nextWinnersSlide() {
+        if (winnersSlideCount === 0) return;
+        currentWinnersSlideIndex = (currentWinnersSlideIndex + 1) % winnersSlideCount;
+        updateWinnersSliderPosition();
+      }
+
+      function prevWinnersSlide() {
+        if (winnersSlideCount === 0) return;
+        currentWinnersSlideIndex = (currentWinnersSlideIndex - 1 + winnersSlideCount) % winnersSlideCount;
+        updateWinnersSliderPosition();
+      }
+
+      function startWinnersAutoplay() {
+        if (winnersSlideInterval) {
+          clearInterval(winnersSlideInterval);
+        }
+        if (winnersSlideCount > 0) {
+          winnersSlideInterval = setInterval(nextWinnersSlide, 4000); // Change slide every 4 seconds
+        }
+      }
+
+      if (winnersPrevButton) {
+        winnersPrevButton.addEventListener('click', function() {
+          prevWinnersSlide();
+          startWinnersAutoplay(); // Reset autoplay on manual interaction
+        });
+      }
+
+      if (winnersNextButton) {
+        winnersNextButton.addEventListener('click', function() {
+          nextWinnersSlide();
+          startWinnersAutoplay(); // Reset autoplay on manual interaction
+        });
+      }
+
+      // Debounced resize handler for winners slider
+      const debouncedWinnersResize = debounce(updateWinnersSliderPosition, 250);
+      window.addEventListener('resize', debouncedWinnersResize);
+
+      updateWinnersSliderPosition(); 
+      if (winnersSlideCount > 0) { // Only start autoplay if there are slides
+        startWinnersAutoplay();
+      }
+    });
+  </script>
+
+</body>
+</html>
